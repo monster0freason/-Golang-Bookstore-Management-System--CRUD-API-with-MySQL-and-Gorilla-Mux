@@ -136,9 +136,11 @@ The bookstore-routes file within the routes folder defines and registers routes 
 
 1. **Importing Packages:**
    ```go
+   package routes
+
    import (
-       "github.com/gorilla/mux"
-       "github.com/active/good/bookstore/pkg/controllers"
+    "github.com/gorilla/mux"
+    "github.com/monster0freason/golang-bookstore-management-system/pkg/controllers"
    )
    ```
    - Here, `mux` is imported to handle routing, while `controllers` is imported to access the controller functions.
@@ -198,7 +200,9 @@ var DB *gorm.DB
 
 func Connect() {
     var err error
-    DB, err = gorm.Open("mysql", "username:password@tcp(localhost:3306)/database_name?charset=utf8&parseTime=True&loc=Local")
+    DB, err = gorm.Open("mysql", "Ankit:Ankit@tcp(localhost:3306)/bookstoreDB?charset=utf8&parseTime=True&loc=Local")
+
+
     if err != nil {
         panic(err)
     }
@@ -241,13 +245,13 @@ package utils
 
 import (
     "encoding/json"
-    "io/ioutil"
+    "io"
     "net/http"
 )
 
 func ParseBody(r *http.Request, x interface{}) {
-    if body, err := ioutil.ReadAll(r.Body); err == nil {
-        if err := json.Unmarshal([]byte(body), x); err != nil {
+    if body, err := io.ReadAll(r.Body); err == nil {
+        if err := json.Unmarshal(body, x); err != nil {
             return
         }
     }
@@ -290,21 +294,22 @@ package models
 
 import (
     "github.com/jinzhu/gorm"
-    "github.com/akhil/go-bookstore/bookstore/pkg/config"
+    "github.com/monster0freason/golang-bookstore-management-system/pkg/config"
 )
 
-var DB *gorm.DB
+var db *gorm.DB
 
 type Book struct {
-    Name        string `gorm:"column:name" json:"name"`
-    Author      string `gorm:"column:author" json:"author"`
-    Publication string `gorm:"column:publication" json:"publication"`
+	gorm.Model
+    Name        string `gorm:"" json:"name"`
+    Author      string ` json:"author"`
+    Publication string ` json:"publication"`
 }
 
 func init() {
     config.Connect()
-    DB = config.GetDB()
-    DB.AutoMigrate(&Book{})
+    db = config.GetDB()
+    db.AutoMigrate(&Book{})
 }
 ```
 
