@@ -7,8 +7,7 @@
 
 
 1. **Database Interaction with Gorm:**
-   -```go
-// Library imports for database interaction with Gorm
+```go
 import (
     "github.com/jinzhu/gorm"
     _ "github.com/jinzhu/gorm/dialects/mysql"
@@ -17,54 +16,25 @@ import (
    - We'll use the Gorm package, which is an ORM (Object-Relational Mapping) framework for Go, to interact with a MySQL database. Gorm simplifies database operations by abstracting away the complexities of SQL queries, allowing us to work with Go structs instead of raw SQL.
 
 2. **JSON Marshaling and Unmarshaling:**
+```go
+import (
+    "encoding/json"
+)
+```
    - JSON marshaling refers to the process of converting Go structs into JSON format, while unmarshaling is the reverse process of converting JSON data into Go structs. These techniques are essential for handling data serialization and deserialization when sending and receiving HTTP requests and responses in JSON format.
 
 3. **Routing with Gorilla Mux:**
+```go
+import (
+    "github.com/gorilla/mux"
+)
+```
    - Gorilla Mux is a powerful HTTP router for Go, enabling us to define URL patterns and map them to handler functions. With Gorilla Mux, we can easily handle complex routing scenarios, including route parameters, query parameters, and nested routes. It simplifies the process of routing requests to the appropriate controller functions.
 
-4. **Project Structure:**
+## 4️⃣ Project Structure
+
    - The project follows a structured layout to organize code effectively. It consists of two main folders:
-     - `CMD`: This folder contains the `main.go` file, which serves as the entry point to the application. It initializes the server and sets up any necessary configurations.
-     - `Package`: This folder contains subfolders for different components of the system:
-       - `Config`: Houses configurations related to database connectivity, such as database URL, username, and password.
-       - `Controllers`: Contains controller functions responsible for processing incoming requests and generating appropriate responses.
-       - `Models`: Defines data models and structs representing database entities. These models encapsulate the structure of our database tables.
-       - `Routes`: Handles routing by defining API endpoints and mapping them to corresponding controller functions.
-       - `Utils`: Contains utility functions used across the application, such as functions for JSON marshaling and unmarshaling.
-
-5. **Routes in the Bookstore Management System:**
-   - The API consists of several endpoints for performing CRUD (Create, Read, Update, Delete) operations on book records:
-a. **GET /book:**
-   - Endpoint for retrieving all books from the database.
-   - Corresponding controller function: `getBooks`.
-
-b. **POST /book:**
-   - Endpoint to create a new book.
-   - Requires sending book details in the request body.
-   - Corresponding controller function: `createBook`.
-
-c. **GET /book/{id}:**
-   - Endpoint to fetch a specific book by its ID.
-   - Requires specifying the book ID in the URL path.
-   - Corresponding controller function: `getBookByID`.
-
-d. **PUT /book/{id}:**
-   - Endpoint to update an existing book.
-   - Requires specifying the book ID in the URL path and sending updated book details in the request body.
-   - Corresponding controller function: `updateBook`.
-
-e. **DELETE /book/{id}:**
-   - Endpoint to delete a book by its ID.
-   - Requires specifying the book ID in the URL path.
-   - Corresponding controller function: `deleteBook`.
-
-By utilizing these components and adhering to the project structure, we ensure a well-organized and maintainable codebase for our Bookstore Management System API.
-
-
-
-# 'roadmap for creating all the folders in the project:'
-
-1. **CMD Folder:**
+ 1. **CMD Folder:**
    - Create a folder named `CMD`.
    - Inside the `CMD` folder, create another folder named `main`.
    - Inside the `main` folder, create the `main.go` file.
@@ -93,10 +63,34 @@ By utilizing these components and adhering to the project structure, we ensure a
 7. **Utils Folder:**
    - Inside the `Utils` folder, create the `utils.go` file.
 
-By following this roadmap, you'll create the necessary folder structure for your project. This structured organization will help keep your codebase organized and manageable as you develop the Bookstore Management System API.
+## 5️⃣ Routes 
+   - The API consists of several endpoints for performing CRUD (Create, Read, Update, Delete) operations on book records:
+a. **GET /book:**
+   - Endpoint for retrieving all books from the database.
+   - Corresponding controller function: `getBooks`.
 
+b. **POST /book:**
+   - Endpoint to create a new book.
+   - Requires sending book details in the request body.
+   - Corresponding controller function: `createBook`.
 
-Sure, let's break down the code step by step:
+c. **GET /book/{id}:**
+   - Endpoint to fetch a specific book by its ID.
+   - Requires specifying the book ID in the URL path.
+   - Corresponding controller function: `getBookByID`.
+
+d. **PUT /book/{id}:**
+   - Endpoint to update an existing book.
+   - Requires specifying the book ID in the URL path and sending updated book details in the request body.
+   - Corresponding controller function: `updateBook`.
+
+e. **DELETE /book/{id}:**
+   - Endpoint to delete a book by its ID.
+   - Requires specifying the book ID in the URL path.
+   - Corresponding controller function: `deleteBook`.
+
+By utilizing these components and adhering to the project structure, we ensure a well-organized and maintainable codebase for our Bookstore Management System API.
+
 
 1. **Importing Packages:**
    - The first step is to import the necessary packages. In this case, the code imports the `gorilla/mux` package, which is used for routing.
