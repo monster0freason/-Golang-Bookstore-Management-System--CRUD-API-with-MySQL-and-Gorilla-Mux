@@ -1,11 +1,47 @@
 # 'Golang Bookstore Management System: CRUD API with MySQL and Gorilla Mux
 
-## 2️⃣ Overview of the project
+## 0️⃣ Overview of the project
  The Golang Bookstore Management System project aims to develop a robust and efficient CRUD (Create, Read, Update, Delete) API in Go language for managing bookstore records. The system utilizes popular packages such as Gorm for MySQL interaction and Gorilla Mux for routing, offering a beginner-friendly approach to understanding these technologies.
 
+## 1️⃣ Prerequisites
+
+Before you begin, make sure you have the following installed:
+
+- Go programming language
+- Postman (for testing the API)
+- MySQL database server
+
+## 2️⃣ Setup
+
+1. Clone the repository to your local machine:
+
+```bash
+git clone https://github.com/monster0freason/-Golang-Bookstore-Management-System--CRUD-API-with-MySQL-and-Gorilla-Mux
+```
+
+2. Navigate to the project directory:
+
+```bash
+cd "-Golang-Bookstore-Management-System--CRUD-API-with-MySQL-and-Gorilla-Mux"
+```
+
+3. Set up your MySQL database:
+   - Create a new database named `bookstore` in your MySQL server.
+   - Update the database connection string in the `config/app.go` file with your MySQL credentials:
+     ```go
+     DB, err = gorm.Open("mysql", "username:password@tcp(localhost:3306)/bookstore?charset=utf8&parseTime=True&loc=Local")
+     ```
+     Replace `username` and `password` with your MySQL username and password, respectively.
+
+4. Build and run the application:
+
+```bash
+go build
+go run main.go
+```
+
+
 ## 3️⃣ Library Imports
-
-
 1. **Database Interaction with Gorm:**
 ```go
 import (
@@ -65,7 +101,7 @@ import (
    - Inside the `Utils` folder, create the `utils.go` file.
 
 ## 5️⃣ Routes 
-![routes](images/routes.png){:height="300px" width="500px"}
+![routes](images/routes.png)
 
    - The API consists of several endpoints for performing CRUD (Create, Read, Update, Delete) operations on book records:
 a. **GET /book:**
@@ -96,6 +132,7 @@ By utilizing these components and adhering to the project structure, we ensure a
 
 
 ## 6️⃣ `bookstore-routes` file inside the `routes` folder
+The bookstore-routes file within the routes folder defines and registers routes using gorilla/mux, associating each route with a corresponding controller function from the controllers package. This modular approach promotes clarity, separating route handling from business logic, enhancing code readability and maintainability.
 
 1. **Importing Packages:**
    ```go
@@ -147,8 +184,7 @@ By following this approach, the code achieves a clear separation of concerns, wi
 
 
 ## 7️⃣ `app.go` file inside the `config` folder
-
-Here's the code for the `app.go` file inside the `config` folder, along with an explanation of each part:
+The `app.go` file in the `config` folder sets up and manages the MySQL database connection for the application. It initializes a global variable `DB` of type `*gorm.DB`, establishes the connection using provided credentials, and provides functions to connect (`Connect()`) and retrieve the database connection (`GetDB()`) for executing database operations throughout the application.
 
 ```go
 package config
@@ -172,31 +208,22 @@ func GetDB() *gorm.DB {
     return DB
 }
 ```
-
-Explanation:
-
-Sure, let's break down the code for `app.go` in the `config` package and explain each part in more detail:
-
-1. **Package Declaration:**
-   - `package config`: This line at the top of the file indicates that this file belongs to the `config` package, which is a part of your project's package structure.
-
-2. **Import Statements:**
-   - `import "github.com/jinzhu/gorm"`: This line imports the Gorm package, which is an ORM (Object-Relational Mapping) library for Go. It provides functionalities for interacting with databases.
+1. **Import Statements:**
    - `import _ "github.com/jinzhu/gorm/dialects/mysql"`: This line imports the MySQL dialect for Gorm. The underscore `_` before the import is used to import the package solely for its side effects, such as registering the MySQL dialect with Gorm. It allows Gorm to communicate with MySQL databases.
 
-3. **Global Variable:**
+2. **Global Variable:**
    - `var DB *gorm.DB`: This line declares a global variable `DB` of type `*gorm.DB`, which will hold the connection to the MySQL database. It will be accessible from other files within the `config` package.
 
-4. **Connect Function:**
+3. **Connect Function:**
    - `func Connect()`: This function is responsible for establishing a connection with the MySQL database.
    - Inside the function, `gorm.Open()` is called to open a connection to the MySQL database. The function takes two parameters: the database driver ("mysql") and the connection string. The connection string contains information such as the username, password, host, port, and database name.
    - If an error occurs during the connection process, it is assigned to the `err` variable. If `err` is not `nil`, indicating an error, the program panics and exits, displaying the error message.
 
-5. **GetDB Function:**
+4. **GetDB Function:**
    - `func GetDB() *gorm.DB`: This function returns the global `DB` variable, allowing other files in the project to access the database connection.
    - When called, it simply returns the `DB` variable.
 
-6. **Additional Database Configuration:**
+5. **Additional Database Configuration:**
    - After the connection string in the `Connect()` function, there are additional parameters required by MySQL:
      - `charset=utf8`: Specifies the character set to use, which is UTF-8 in this case.
      - `parseTime=True`: Enables Gorm to automatically parse time values from the database into Go `time.Time` objects.
@@ -206,7 +233,8 @@ Overall, this `app.go` file serves as the configuration for establishing and man
 
 
 
-Here's the code for the `utils.go` file in the `utils` package, along with an explanation of each part:
+## 8️⃣ `utils.go` file in the `utils` folder
+The `utils.go` file provides a `ParseBody` function in the `utils` package, facilitating the parsing of JSON request bodies from HTTP requests. It reads the request body, unmarshals the JSON data into a provided empty interface, and handles errors. This utility promotes code reuse and simplifies JSON parsing in the project.
 
 ```go
 package utils
@@ -225,18 +253,12 @@ func ParseBody(r *http.Request, x interface{}) {
     }
 }
 ```
-
-Explanation:
-
-1. **Package Declaration:**
-   - `package utils`: This line declares that this file belongs to the `utils` package.
-
-2. **Import Statements:**
+1. **Import Statements:**
    - `import "encoding/json"`: Imports the `encoding/json` package, which provides functions for encoding and decoding JSON data.
    - `import "io/ioutil"`: Imports the `io/ioutil` package, which provides utilities for working with input/output operations, such as reading from and writing to files.
    - `import "net/http"`: Imports the `net/http` package, which provides HTTP client and server implementations.
 
-3. **ParseBody Function:**
+2. **ParseBody Function:**
    - `func ParseBody(r *http.Request, x interface{})`: Defines a function named `ParseBody` that takes two parameters: `r`, which is a pointer to an `http.Request` object representing the incoming HTTP request, and `x`, which is an empty interface that will hold the parsed JSON data.
    - Inside the function, it attempts to read the entire body of the HTTP request using `ioutil.ReadAll(r.Body)`. This reads the request body and returns a byte slice containing the body content (`body`) and an error (`err`). If there's no error (`err == nil`), it proceeds with JSON unmarshaling.
    - It then attempts to unmarshal the JSON data (`[]byte(body)`) into the provided empty interface `x` using `json.Unmarshal()`. If there's an error during unmarshaling, it returns immediately.
@@ -256,12 +278,12 @@ Here's why we're using an interface in this context:
 
 3. **Polymorphism**: Using an interface enables polymorphism, allowing different types of JSON data to be parsed using the same function signature. This simplifies code reuse and promotes consistency across different parts of the application.
 
-Overall, using an interface in the `ParseBody` function enhances flexibility, decouples implementation details, and promotes polymorphism, leading to more modular and maintainable code.
 
 
 
 
-Here's the code for the `book.go` file inside the `models` package, along with an explanation of each part:
+## 9️⃣ `book.go` file inside the `models` folder
+The `book.go` file in the `models` folder defines a `Book` struct representing book data in the database. It establishes a database connection, auto-migrates the `Book` struct to the database schema, and provides methods to create, retrieve, and delete books from the database using Gorm ORM in a Go-based CRUD API.
 
 ```go
 package models
@@ -286,35 +308,88 @@ func init() {
 }
 ```
 
-Explanation:
+1. **Import Statements:**
+   - `github.com/akhil/go-bookstore/bookstore/pkg/config`: Imports the `config` package from the project, which provides database connectivity.
 
-1. **Package Declaration:**
-   - `package models`: Declares that this file belongs to the `models` package.
-
-2. **Import Statements:**
-   - Imports necessary packages:
-     - `github.com/jinzhu/gorm`: Imports the Gorm package for ORM functionalities.
-     - `github.com/akhil/go-bookstore/bookstore/pkg/config`: Imports the `config` package from the project, which provides database connectivity.
-
-3. **Global Variable:**
+2. **Global Variable:**
    - `var DB *gorm.DB`: Declares a global variable `DB` of type `*gorm.DB`, which will hold the database connection.
 
-4. **Book Struct:**
+3. **Book Struct:**
    - Defines a struct named `Book` representing the model for books in the database.
    - It has three fields: `Name`, `Author`, and `Publication`, each tagged with `gorm` and `json` tags to specify column names and JSON field names, respectively.
 
-5. **Init Function:**
+4. **Init Function:**
    - `func init()`: Defines an initialization function that will be automatically executed when the package is imported.
    - Inside the function:
      - It calls `config.Connect()` to establish a connection with the database using the configuration defined in the `config` package.
      - It retrieves the database connection using `config.GetDB()` and assigns it to the global `DB` variable.
      - It calls `DB.AutoMigrate(&Book{})` to automatically migrate the `Book` struct to the database schema, ensuring that the `books` table (corresponding to the `Book` struct) is created or updated based on the struct definition.
 
-This `book.go` file serves as the model for the `Book` entity in the application's database. It initializes the database connection and ensures that the necessary database schema modifications are applied using Gorm's auto-migration feature.
+5. **CreateBook() Function:**
+```go
+// CreateBook creates a new book in the database
+func (b *Book)CreateBook() *Book {
+    db.NewRecord(b)
+    db.Create(&b)
+    return b
+}
+```
+   - `CreateBook()` is a method attached to the `Book` struct, making it a method of that struct.
+   - When calling `CreateBook()`, it operates on a specific instance of a `Book` struct.
+   - The function takes no parameters because it operates on the receiver, which is denoted by `(b *Book)`. This means it's invoked on a specific `Book` instance.
+   - The `db` object used inside `CreateBook()` is a global variable initialized in the `init()` function. It represents the database connection.
+   - Before creating a new record in the database, Gorm checks if the book `b` is a new record by calling `db.NewRecord(b)`. This is a Gorm method that checks if a given struct is a new record (i.e., not yet saved to the database).
+   - If `b` is indeed a new record, `db.Create(&b)` is called to create the book record in the database. The `&b` syntax is used to pass the address of the `b` variable, allowing Gorm to modify it directly.
+   - After creating the record, the function returns a pointer to the created book (`return b`). This allows the caller to access the created book's properties or use it further in the application.
+
+6. **GetAllBooks() Function:**
+```go
+// GetAllBooks retrieves all books from the database
+func GetAllBooks() []*Book {
+    var Books []*Book
+    db.Find(&Books)
+    return Books
+}
+```
+   - `GetAllBooks()` retrieves all books from the database without any filters.
+   - Inside the function, a slice named `Books` of type `*Book` is declared. This slice will hold pointers to `Book` structs retrieved from the database.
+   - `db.Find(&Books)` is used to fetch all records from the `books` table in the database and store them in the `Books` slice. Gorm populates the slice with the retrieved records.
+   - The function then returns the `Books` slice containing pointers to all retrieved books.
+
+7. **GetBookByID() Function:**
+```go
+// GetBookByID retrieves a book from the database by its ID
+func GetBookByID(Id int64) (*Book, *gorm.DB) {
+    var getBook Book
+    db := db.Where("ID = ?", Id).Find(&getBook)
+    return &getBook, db
+}
+```
+   - `GetBookByID()` retrieves a book from the database by its ID.
+   - It takes the `ID` of the book as an input parameter.
+   - Inside the function, a variable named `getBook` of type `Book` is declared to store the retrieved book.
+   - `db.Where("ID = ?", Id).Find(&getBook)` is used to query the database for the book with the specified ID. Gorm retrieves the book and populates the `getBook` variable with its data.
+   - The function then returns a pointer to the `getBook` variable and a pointer to a `gorm.DB` object representing the database operation result.
+
+8. **DeleteBook() Function:**
+```go
+// DeleteBook deletes a book from the database by its ID
+func DeleteBook(ID int64) Book {
+    var book Book
+    db.Where("ID = ?", ID).Delete(book)
+    return book
+}
+```
+   - `DeleteBook()` deletes a book from the database by its ID.
+   - It takes the `ID` of the book as an input parameter.
+   - Inside the function, a variable named `book` of type `Book` is declared to store the deleted book.
+   - `db.Where("ID = ?", ID).Delete(book)` is used to delete the book with the specified ID from the database. Gorm performs the deletion operation.
+   - The function then returns the `book` variable, which may contain the deleted book's data (although it's not used in this case).
+    
 
 
-
-Here's the code for the `main.go` file, along with an explanation of each part:
+## 1️⃣0️⃣ `main.go` file inside the `cmd\main` folder
+The `main.go` file initializes a router, registers routes for a bookstore management system, and starts an HTTP server. It ensures structured request handling and separation of concerns by defining routes separately. The server listens on localhost:9010, handling incoming requests according to the defined routes.
 
 ```go
 package main
@@ -341,17 +416,12 @@ func main() {
     log.Fatal(http.ListenAndServe("localhost:9010", r))
 }
 ```
-
-Explanation:
-
 1. **Package Declaration:**
    - `package main`: Declares that this file is part of the `main` package, indicating that it is an executable program.
 
 2. **Import Statements:**
    - Imports necessary packages:
      - `"log"`: Imports the standard Go package for logging.
-     - `"net/http"`: Imports the standard Go package for HTTP server functionalities.
-     - `"github.com/gorilla/mux"`: Imports the Gorilla Mux package for HTTP request routing.
      - `"_ "github.com/jinzhu/gorm/dialects/mysql"`: Imports the MySQL dialect for Gorm, allowing Gorm to interact with MySQL databases. The underscore `_` before the import indicates that we only want to import the package for its side effects (i.e., registering the MySQL dialect with Gorm) without directly referencing it in our code.
      - `"github.com/akhil/go-bookstore/package/routes"`: Imports the `routes` package from the project, which contains route definitions.
 
@@ -363,99 +433,14 @@ Explanation:
      - Handles functions using controllers by passing the router `r` to `http.Handle("/", r)`, which sets up the router to handle all incoming HTTP requests.
      - Creates the server using `http.ListenAndServe("localhost:9010", r)`. This function starts an HTTP server listening on port 9010 of the localhost. If an error occurs during server startup, it logs the error and exits using `log.Fatal()`.
 
-This `main.go` file serves as the entry point of the application. It initializes the router, registers routes, and starts the HTTP server to handle incoming requests. It ensures that the application follows a structured approach to handling HTTP requests and maintains separation of concerns by defining routes in a separate package.
 
 
 
+## 1️⃣1️⃣ `controllers.go` file inside the `controllers` folder
+The `controllers.go` file within the `controllers` folder provides CRUD operations for managing books in a bookstore management system. It handles HTTP requests and responses, interacting with the database through the models package. Functions include retrieving all books, getting a book by ID, creating, updating, and deleting books, utilizing JSON formatting for data exchange.
 
-
-
-
-
-package models
-
-import (
-    "github.com/jinzhu/gorm"
-    "github.com/monster0freason/golang-bookstore-management-system/pkg/config"
-)
-
-var db *gorm.DB
-
-type Book struct {
-    Name        string `gorm:"column:name" json:"name"`
-    Author      string `gorm:"column:author" json:"author"`
-    Publication string `gorm:"column:publication" json:"publication"`
-}
-
-func init() {
-    config.Connect()
-    db = config.GetDB()
-    db.AutoMigrate(&Book{})
-}
-
-
-// CreateBook creates a new book in the database
-func (b *Book)CreateBook() *Book {
-    db.NewRecord(b)
-    db.Create(&b)
-    return b
-}
-
-// GetAllBooks retrieves all books from the database
-func GetAllBooks() []*Book {
-    var Books []*Book
-    db.Find(&Books)
-    return Books
-}
-
-// GetBookByID retrieves a book from the database by its ID
-func GetBookByID(Id int64) (*Book, *gorm.DB) {
-    var getBook Book
-    db := db.Where("ID = ?", Id).Find(&getBook)
-    return &getBook, db
-}
-
-// DeleteBook deletes a book from the database by its ID
-func DeleteBook(ID int64) Book {
-    var book Book
-    db.Where("ID = ?", ID).Delete(book)
-    return book
-}
-Certainly! Let's delve deeper into the internal workings of each function, starting with `CreateBook()` and then moving on to the others:
-
-1. **CreateBook() Function:**
-   - `CreateBook()` is a method attached to the `Book` struct, making it a method of that struct.
-   - When calling `CreateBook()`, it operates on a specific instance of a `Book` struct.
-   - The function takes no parameters because it operates on the receiver, which is denoted by `(b *Book)`. This means it's invoked on a specific `Book` instance.
-   - The `db` object used inside `CreateBook()` is a global variable initialized in the `init()` function. It represents the database connection.
-   - Before creating a new record in the database, Gorm checks if the book `b` is a new record by calling `db.NewRecord(b)`. This is a Gorm method that checks if a given struct is a new record (i.e., not yet saved to the database).
-   - If `b` is indeed a new record, `db.Create(&b)` is called to create the book record in the database. The `&b` syntax is used to pass the address of the `b` variable, allowing Gorm to modify it directly.
-   - After creating the record, the function returns a pointer to the created book (`return b`). This allows the caller to access the created book's properties or use it further in the application.
-
-2. **GetAllBooks() Function:**
-   - `GetAllBooks()` retrieves all books from the database without any filters.
-   - Inside the function, a slice named `Books` of type `*Book` is declared. This slice will hold pointers to `Book` structs retrieved from the database.
-   - `db.Find(&Books)` is used to fetch all records from the `books` table in the database and store them in the `Books` slice. Gorm populates the slice with the retrieved records.
-   - The function then returns the `Books` slice containing pointers to all retrieved books.
-
-3. **GetBookByID() Function:**
-   - `GetBookByID()` retrieves a book from the database by its ID.
-   - It takes the `ID` of the book as an input parameter.
-   - Inside the function, a variable named `getBook` of type `Book` is declared to store the retrieved book.
-   - `db.Where("ID = ?", Id).Find(&getBook)` is used to query the database for the book with the specified ID. Gorm retrieves the book and populates the `getBook` variable with its data.
-   - The function then returns a pointer to the `getBook` variable and a pointer to a `gorm.DB` object representing the database operation result.
-
-4. **DeleteBook() Function:**
-   - `DeleteBook()` deletes a book from the database by its ID.
-   - It takes the `ID` of the book as an input parameter.
-   - Inside the function, a variable named `book` of type `Book` is declared to store the deleted book.
-   - `db.Where("ID = ?", ID).Delete(book)` is used to delete the book with the specified ID from the database. Gorm performs the deletion operation.
-   - The function then returns the `book` variable, which may contain the deleted book's data (although it's not used in this case).
-
-In summary, these functions encapsulate database operations related to the `Book` model. They leverage Gorm's ORM capabilities to interact with the database, providing an abstraction layer that simplifies database access and management.
-
-
-
+1. **Package Declaration:**
+```go
 package controllers
 
 import (
@@ -468,7 +453,10 @@ import (
     "github.com/monster0freason/golang-bookstore-management-system/pkg/utils"
     "github.com/gorilla/mux"
 )
+```
 
+1. **GetBooks**:
+```go
 // GetBooks handles the retrieval of all books from the database.
 func GetBooks(w http.ResponseWriter, r *http.Request) {
     newBooks := models.GetAllBooks() // Retrieve all books from the database
@@ -477,7 +465,15 @@ func GetBooks(w http.ResponseWriter, r *http.Request) {
     w.WriteHeader(http.StatusOK)
     w.Write(res)
 }
+```
+   - This function handles the retrieval of all books from the database.
+   - It takes an `http.ResponseWriter` and an `http.Request` as parameters.
+   - Inside the function, it calls the `GetAllBooks()` function from the `models` package, which retrieves all books from the database.
+   - The retrieved books are then marshaled into JSON format using `json.Marshal()`.
+   - The JSON response is written to the response writer along with setting the appropriate content type and status code.
 
+2. **GetBookByID**:
+```go
 // GetBookByID retrieves a book from the database by its ID.
 func GetBookByID(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
@@ -494,7 +490,16 @@ func GetBookByID(w http.ResponseWriter, r *http.Request) {
     w.WriteHeader(http.StatusOK)
     w.Write(res)
 }
+```
+   - This function retrieves a specific book from the database by its ID.
+   - It takes an `http.ResponseWriter` and an `http.Request` as parameters.
+   - It extracts the book ID from the request URL using `mux.Vars(r)`.
+   - The extracted ID is then converted to an integer using `strconv.ParseInt()` assuming the book ID is of type `int64`.
+   - It calls the `GetBookByID()` function from the `models` package to retrieve the book details.
+   - The retrieved book details are marshaled into JSON format and written to the response writer along with setting the appropriate content type and status code.
 
+3. **CreateBook**:
+```go
 // CreateBook creates a new book in the database.
 func CreateBook(w http.ResponseWriter, r *http.Request) {
     newBook := &models.Book{}
@@ -506,7 +511,16 @@ func CreateBook(w http.ResponseWriter, r *http.Request) {
     w.WriteHeader(http.StatusCreated)
     w.Write(res)
 }
+```
+   - This function creates a new book in the database.
+   - It takes an `http.ResponseWriter` and an `http.Request` as parameters.
+   - It initializes a new empty `models.Book` struct.
+   - It parses the request body into the newly created book struct using the `utils.ParseBody()` function.
+   - It calls the `CreateBook()` method of the `models.Book` struct to save the newly created book to the database.
+   - The created book is marshaled into JSON format and written to the response writer along with setting the appropriate content type and status code.
 
+4. **UpdateBook**:
+```go
 // UpdateBook updates an existing book in the database.
 func UpdateBook(w http.ResponseWriter, r *http.Request) {
     var updateBook models.Book
@@ -537,7 +551,20 @@ func UpdateBook(w http.ResponseWriter, r *http.Request) {
     w.WriteHeader(http.StatusOK)
     w.Write(res)
 }
+```
+   - This function updates an existing book in the database.
+   - It takes an `http.ResponseWriter` and an `http.Request` as parameters.
+   - It initializes a new `models.Book` struct to hold the updated book details.
+   - It parses the request body into the update book struct using `utils.ParseBody()`.
+   - It extracts the book ID from the request URL using `mux.Vars(r)`.
+   - The extracted ID is converted to an integer using `strconv.ParseInt()`.
+   - It calls the `GetBookByID()` function from the `models` package to retrieve the book details by ID.
+   - It updates the book details if new values are provided in the request body.
+   - The updated book details are saved to the database using `db.Save(&bookDetails)`.
+   - The updated book details are then marshaled into JSON format and written to the response writer along with setting the appropriate content type and status code.
 
+5. **DeleteBook**:
+```go
 // DeleteBook deletes a book from the database by its ID.
 func DeleteBook(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
@@ -554,48 +581,7 @@ func DeleteBook(w http.ResponseWriter, r *http.Request) {
     w.WriteHeader(http.StatusOK)
     w.Write(res)
 }
-
-
-
-
-Let's break down each function in detail and explain its purpose and workings:
-
-1. **GetBooks**:
-   - This function handles the retrieval of all books from the database.
-   - It takes an `http.ResponseWriter` and an `http.Request` as parameters.
-   - Inside the function, it calls the `GetAllBooks()` function from the `models` package, which retrieves all books from the database.
-   - The retrieved books are then marshaled into JSON format using `json.Marshal()`.
-   - The JSON response is written to the response writer along with setting the appropriate content type and status code.
-
-2. **GetBookByID**:
-   - This function retrieves a specific book from the database by its ID.
-   - It takes an `http.ResponseWriter` and an `http.Request` as parameters.
-   - It extracts the book ID from the request URL using `mux.Vars(r)`.
-   - The extracted ID is then converted to an integer using `strconv.ParseInt()` assuming the book ID is of type `int64`.
-   - It calls the `GetBookByID()` function from the `models` package to retrieve the book details.
-   - The retrieved book details are marshaled into JSON format and written to the response writer along with setting the appropriate content type and status code.
-
-3. **CreateBook**:
-   - This function creates a new book in the database.
-   - It takes an `http.ResponseWriter` and an `http.Request` as parameters.
-   - It initializes a new empty `models.Book` struct.
-   - It parses the request body into the newly created book struct using the `utils.ParseBody()` function.
-   - It calls the `CreateBook()` method of the `models.Book` struct to save the newly created book to the database.
-   - The created book is marshaled into JSON format and written to the response writer along with setting the appropriate content type and status code.
-
-4. **UpdateBook**:
-   - This function updates an existing book in the database.
-   - It takes an `http.ResponseWriter` and an `http.Request` as parameters.
-   - It initializes a new `models.Book` struct to hold the updated book details.
-   - It parses the request body into the update book struct using `utils.ParseBody()`.
-   - It extracts the book ID from the request URL using `mux.Vars(r)`.
-   - The extracted ID is converted to an integer using `strconv.ParseInt()`.
-   - It calls the `GetBookByID()` function from the `models` package to retrieve the book details by ID.
-   - It updates the book details if new values are provided in the request body.
-   - The updated book details are saved to the database using `db.Save(&bookDetails)`.
-   - The updated book details are then marshaled into JSON format and written to the response writer along with setting the appropriate content type and status code.
-
-5. **DeleteBook**:
+```
    - This function deletes a book from the database by its ID.
    - It takes an `http.ResponseWriter` and an `http.Request` as parameters.
    - It extracts the book ID from the request URL using `mux.Vars(r)`.
@@ -603,4 +589,40 @@ Let's break down each function in detail and explain its purpose and workings:
    - It calls the `DeleteBook()` function from the `models` package to delete the book from the database by ID.
    - The deleted book details are marshaled into JSON format and written to the response writer along with setting the appropriate content type and status code.
 
-These functions collectively provide the CRUD (Create, Read, Update, Delete) operations for managing books in the bookstore management system. They interact with the database through the models package and handle request and response formatting using the `http.ResponseWriter` and `http.Request` objects.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
