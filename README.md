@@ -1,10 +1,19 @@
 # 'Golang Bookstore Management System: CRUD API with MySQL and Gorilla Mux
- A beginner-friendly CRUD API in Golang for managing bookstore records. Utilizes Gorm for MySQL interaction and Gorilla Mux for routing. Structured project layout facilitates understanding of CRUD operations and project structuring.
 
+## 2️⃣ Overview of the project
+ The Golang Bookstore Management System project aims to develop a robust and efficient CRUD (Create, Read, Update, Delete) API in Go language for managing bookstore records. The system utilizes popular packages such as Gorm for MySQL interaction and Gorilla Mux for routing, offering a beginner-friendly approach to understanding these technologies.
 
- Certainly! Let's break down each component:
+## 3️⃣ Library Imports
+
 
 1. **Database Interaction with Gorm:**
+   -```go
+// Library imports for database interaction with Gorm
+import (
+    "github.com/jinzhu/gorm"
+    _ "github.com/jinzhu/gorm/dialects/mysql"
+)
+```
    - We'll use the Gorm package, which is an ORM (Object-Relational Mapping) framework for Go, to interact with a MySQL database. Gorm simplifies database operations by abstracting away the complexities of SQL queries, allowing us to work with Go structs instead of raw SQL.
 
 2. **JSON Marshaling and Unmarshaling:**
