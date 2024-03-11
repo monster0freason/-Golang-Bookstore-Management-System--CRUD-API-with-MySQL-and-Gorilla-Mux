@@ -32,6 +32,7 @@ import (
    - Gorilla Mux is a powerful HTTP router for Go, enabling us to define URL patterns and map them to handler functions. With Gorilla Mux, we can easily handle complex routing scenarios, including route parameters, query parameters, and nested routes. It simplifies the process of routing requests to the appropriate controller functions.
 
 ## 4️⃣ Project Structure
+![project structure](images/project_structure.png)
 
    - The project follows a structured layout to organize code effectively. It consists of two main folders:
  1. **CMD Folder:**
@@ -64,6 +65,7 @@ import (
    - Inside the `Utils` folder, create the `utils.go` file.
 
 ## 5️⃣ Routes 
+![routes](images/routes.png)
    - The API consists of several endpoints for performing CRUD (Create, Read, Update, Delete) operations on book records:
 a. **GET /book:**
    - Endpoint for retrieving all books from the database.
@@ -92,16 +94,15 @@ e. **DELETE /book/{id}:**
 By utilizing these components and adhering to the project structure, we ensure a well-organized and maintainable codebase for our Bookstore Management System API.
 
 
-1. **Importing Packages:**
-   - The first step is to import the necessary packages. In this case, the code imports the `gorilla/mux` package, which is used for routing.
+## 6️⃣ `bookstore-routes` file inside the `routes` folder
 
+1. **Importing Packages:**
    ```go
    import (
        "github.com/gorilla/mux"
        "github.com/active/good/bookstore/pkg/controllers"
    )
    ```
-
    - Here, `mux` is imported to handle routing, while `controllers` is imported to access the controller functions.
 
 2. **Registering Routes:**
@@ -149,6 +150,7 @@ By utilizing these components and adhering to the project structure, we ensure a
 By following this approach, the code achieves a clear separation of concerns, with route definitions handled separately from the controller logic. This promotes modularity, readability, and maintainability of the codebase.
 
 
+## 7️⃣ `app.go` file inside the `config` folder
 
 Here's the code for the `app.go` file inside the `config` folder, along with an explanation of each part:
 
