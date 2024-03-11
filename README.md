@@ -32,7 +32,7 @@ import (
    - Gorilla Mux is a powerful HTTP router for Go, enabling us to define URL patterns and map them to handler functions. With Gorilla Mux, we can easily handle complex routing scenarios, including route parameters, query parameters, and nested routes. It simplifies the process of routing requests to the appropriate controller functions.
 
 ## 4️⃣ Project Structure
-![project structure](images/project_structure.png)
+![project_structure](images/project_structure.png)
 
    - The project follows a structured layout to organize code effectively. It consists of two main folders:
  1. **CMD Folder:**
@@ -65,7 +65,8 @@ import (
    - Inside the `Utils` folder, create the `utils.go` file.
 
 ## 5️⃣ Routes 
-![routes](images/routes.png)
+![routes](images/routes.png){:height="300px" width="500px"}
+
    - The API consists of several endpoints for performing CRUD (Create, Read, Update, Delete) operations on book records:
 a. **GET /book:**
    - Endpoint for retrieving all books from the database.
@@ -109,10 +110,8 @@ By utilizing these components and adhering to the project structure, we ensure a
    - The next step is to define and register the routes using `gorilla/mux`.
    - The `router := mux.NewRouter()` line initializes a new router instance.
 
-   ```go
-  var RegisterBookstoreRoutes = func(router *mux.Router)  {
-    
-
+```go
+var RegisterBookstoreRoutes = func(router *mux.Router) {
     // Handle POST request to create a new book
     router.HandleFunc("/book/", controllers.CreateBook).Methods("POST")
 
@@ -127,11 +126,8 @@ By utilizing these components and adhering to the project structure, we ensure a
 
     // Handle DELETE request to delete a book by ID
     router.HandleFunc("/book/{bookId}", controllers.DeleteBook).Methods("DELETE")
-
-    
- }
-   ```
-
+}
+```
    - Each `HandleFunc` call specifies a route, a corresponding controller function, and the HTTP method associated with that route.
    - For example, `router.HandleFunc("/book", controllers.CreateBook).Methods("POST")` registers a route for creating a new book. When a POST request is made to `/book`, it calls the `CreateBook` function from the `controllers` package.
 
