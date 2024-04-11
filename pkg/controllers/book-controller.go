@@ -13,6 +13,10 @@ import (
 
 // GetBooks handles the retrieval of all books from the database.
 func GetBooks(w http.ResponseWriter, r *http.Request) {
+    if r.Method != "GET"{
+        http.Error(w , http.StatusText(http.StatusMethodNotAllowed) , http.StatusMethodNotAllowed)
+    }
+
     newBooks := models.GetAllBooks() // Retrieve all books from the database
     res, _ := json.Marshal(newBooks)
     w.Header().Set("Content-Type", "application/json")
@@ -22,6 +26,10 @@ func GetBooks(w http.ResponseWriter, r *http.Request) {
 
 // GetBookByID retrieves a book from the database by its ID.
 func GetBookByID(w http.ResponseWriter, r *http.Request) {
+    if r.Method != "GET"{
+        http.Error(w , http.StatusText(http.StatusMethodNotAllowed) , http.StatusMethodNotAllowed)
+    }
+
     vars := mux.Vars(r)
     bookID := vars["bookId"]
     ID, err := strconv.ParseInt(bookID, 10, 64) // Assuming bookId is of type int64
@@ -39,6 +47,9 @@ func GetBookByID(w http.ResponseWriter, r *http.Request) {
 
 // CreateBook creates a new book in the database.
 func CreateBook(w http.ResponseWriter, r *http.Request) {
+    if r.Method != "POST"{
+        http.Error(w , http.StatusText(http.StatusMethodNotAllowed) , http.StatusMethodNotAllowed)
+    }
     newBook := &models.Book{}
     utils.ParseBody(r, newBook)
 
@@ -51,6 +62,10 @@ func CreateBook(w http.ResponseWriter, r *http.Request) {
 
 // UpdateBook updates an existing book in the database.
 func UpdateBook(w http.ResponseWriter, r *http.Request) {
+    if r.Method != "PUT"{
+        http.Error(w , http.StatusText(http.StatusMethodNotAllowed) , http.StatusMethodNotAllowed)
+    }
+
     var updateBook models.Book
     utils.ParseBody(r, &updateBook)
 
@@ -82,6 +97,10 @@ func UpdateBook(w http.ResponseWriter, r *http.Request) {
 
 // DeleteBook deletes a book from the database by its ID.
 func DeleteBook(w http.ResponseWriter, r *http.Request) {
+    if r.Method != "DELETE"{
+        http.Error(w , http.StatusText(http.StatusMethodNotAllowed) , http.StatusMethodNotAllowed)
+    }
+
     vars := mux.Vars(r)
     bookID := vars["bookId"]
     ID, err := strconv.ParseInt(bookID, 10, 64) // Assuming bookId is of type int64
