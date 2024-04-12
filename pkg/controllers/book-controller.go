@@ -38,6 +38,8 @@ func GetBookByID(w http.ResponseWriter, r *http.Request) {
         return
     }
 
+
+
     bookDetails, _ := models.GetBookByID(ID)
     res, _ := json.Marshal(bookDetails)
     w.Header().Set("Content-Type", "application/json")
