@@ -98,6 +98,7 @@ func TestCreateBook(t *testing.T) {
     assert.Equal(t, newBook.Name, responseBody["name"])
     assert.Equal(t, newBook.Author, responseBody["author"])
     assert.Equal(t, newBook.Publication, responseBody["publication"])
+	print("TEST2")
 }
 
 
